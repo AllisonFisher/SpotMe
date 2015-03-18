@@ -4,3 +4,4 @@
 Authors:
 Allison Fisher,
 Zachary Halle,
+Ariana Weinstock,
