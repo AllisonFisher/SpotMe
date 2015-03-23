@@ -1,0 +1,12 @@
+{% if area_list %}
+    <ul>
+    {% for area in area_list %}
+        <div style="background-color:#EEFFEE; border:2px solid; border-color:#AAEEAA; padding:1em;">
+        <li>
+            <h2>{{ area.name }}</h2>
+       </li>
+       </div>
+       <br />
+   {% endfor %}
+   </ul>
+{% endif %}
