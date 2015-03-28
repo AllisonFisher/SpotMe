@@ -16,12 +16,26 @@ def detail(request, area_id):
 
 # search based on attributes
 def search(request):
+    
+    objs = Area.objects.all()
+
     if request.method == 'POST':
-        form = AreaForm(request.POST)
-        if form.is_valid():
-            # do filtering logic here
+        
+        form = AreaForm(request.POST, initial={'seating': 0, 'whiteboards': 0,
+                                               'outlets': 0, 'tables': 0})
+        
+        if form.is_bound and form.is_valid():
+        
+            # check if requested number of chairs/tables/etc.
+            # is at most the amount present    
+            def check(area, key, val):
+                getattr(area, key) >= val
+
+            # filter out those objects which don't have the criteria
+            for key, val in form.cleaned_data.items:
+                objs = [area for area in objs if check(area, key, val)]
 
     else:
         form = AreaForm()
 
-    return render(request, 'SpotMe/search.html', {'form' : form})
+    return render(request, 'SpotMe/search.html', {'form' : form, 'objs': objs})
