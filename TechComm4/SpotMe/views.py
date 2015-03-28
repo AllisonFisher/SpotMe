@@ -21,15 +21,16 @@ def search(request):
 
     if request.method == 'POST':
         
-        form = AreaForm(request.POST, initial={'seating': 0, 'whiteboards': 0,
-                                               'outlets': 0, 'tables': 0})
+        form = AreaForm(request.POST)
         
         if form.is_bound and form.is_valid():
         
-            # check if requested number of chairs/tables/etc.
+            # check if requested number of chairs/tables/etc
             # is at most the amount present    
+            # or skip if blank
             def check(area, key, val):
-                getattr(area, key) >= val
+                attr_val = getattr(area, key)
+                attr_val is None or attr_val >= val
 
             # filter out those objects which don't have the criteria
             for key, val in form.cleaned_data.items:
