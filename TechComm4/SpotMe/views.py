@@ -1,7 +1,7 @@
-from django.shortcuts import render_to_response, get_object_or_404
-
+from django.shortcuts import render_to_response, get_object_or_404, render
+from django.views.generic.edit import FormView
 from SpotMe.models import Area
-from SpotMe.search import AreaForm
+from SpotMe.forms import AreaForm
 
 # full area view
 def index(request):
