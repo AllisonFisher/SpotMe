@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>SpotMe</title>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="main.css" rel="stylesheet" />
+</head>
+<body>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">SpotMe</a>
+				</div>
+				<div id="navbar" class="collapse navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="#">Home</a></li>
+						<li><a href="#about">About</a></li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div>
+		</nav>
+	<div id="content" class="container">
+		<form id="contentForm">
+			<p>I have <input type="text" name="availableSeats" /> people.</p>
+			<button class="searchButton">SpotMe!</button>
+			<button class="advancedSearchToggle">Advanced Search</button>
+			<div id="advancedSearch">
+				<p><input type="checkbox" name="isAdvancedChairs" /><label>Chairs</label><input type="text" name="chairs" /></p>
+				<p>
+					<input type="checkbox" name="isAdvancedFloors" /><label>Floor</label>
+				    <input type= "checkbox" name="floor6"><label>6</label>
+				    <input type= "checkbox" name="floor7"><label>7</label>
+				    <input type= "checkbox" name="floor8"><label>8</label>
+				    <input type= "checkbox" name="floor9"><label>9</label>
+				</p>
+				<p>
+					<input type="checkbox" name="isAdvancedQuietStudy" /><label>Quiet Study</label>
+					<fieldset>
+						<input type="radio" name="query" value="yes" /><label>Yes</label>
+						<input type="radio" name="query" value="no" /><label>No</label>
+					</fieldset>
+				</p>
+				<button class="searchButton">SpotMe!</button>
+				<button class="advancedSearchToggle">Advanced Search</button>
+			</div>
+		</form>
+		<div id="results">
+			<h1>Results</h1>
+			<ul id="resultList">
+			</ul>
+		</div>
+	</div>
+	<footer>
+	</footer>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="app.js"></script>
+</body>
+</html>
