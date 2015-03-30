@@ -11,6 +11,7 @@ class Area(models.Model):
     quiet = models.BooleanField(default=False)
     name = models.CharField(max_length=200)
     last_updated = models.DateTimeField('last updated')
+	is_occupied = models.BooleanField(default=False)
     
     def max_occupancy(self):
         return self.chairs + self.comfy_chairs
