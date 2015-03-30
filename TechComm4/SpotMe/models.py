@@ -14,3 +14,10 @@ class Area(models.Model):
     
     def max_occupancy(self):
         return self.chairs + self.comfy_chairs
+
+    def __str__(self): 
+        withchairs = "chairs: " + str(self.chairs) + "\n"
+        withwhiteboards = withchairs + "whiteboards: " + str(self.whiteboards) + "\n"
+        withtables = withwhiteboards + "tables: " + str(self.tables) + "\n"
+        withfloor = withtables + "floor: " + str(self.floor) + "\n"
+        return withfloor
