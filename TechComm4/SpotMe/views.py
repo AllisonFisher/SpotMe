@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response, get_object_or_404, render
 from django.views.generic.edit import FormView
-from SpotMe.models import Area
+from rest_framework import viewsets
+from SpotMe.models import Area, AreaSerializer
 from SpotMe.forms import AreaForm
 
 # full area view
@@ -40,3 +41,9 @@ def search(request):
         form = AreaForm()
 
     return render(request, 'SpotMe/search.html', {'form' : form, 'objs': objs})
+
+
+# serializer view
+class AreaViewSet(viewsets.ModelViewSet):
+    queryset = Area.objects.all()
+    serializer_class = AreaSerializer
