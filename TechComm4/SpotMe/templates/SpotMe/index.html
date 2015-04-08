@@ -4,6 +4,15 @@
         <div style="background-color:#EEFFEE; border:2px solid; border-color:#AAEEAA; padding:1em;">
         <li>
             <h2>{{ area.name }}</h2>
+            <br />Occupancy: {{ area.curr_occupancy }} / {{ area.max_occupancy }}
+            <br />Floor: {{ area.floor }}
+            <br />Quiet: {% if area.quiet %} Yes {% else %} No {% endif %} 
+            <br />Chairs: {{ area.chairs }}
+            <br />Comfy chairs: {{ area.comfy_chairs }}
+            <br />Tables: {{ area.curr_tables_used }} / {{ area.tables }}
+            <br />Whiteboards: {{ area.curr_whiteboards_used }} / {{ area.whiteboards }}
+            <br />Power outlets: {{ area.outlets }}
+            <br />Last updated on {{ area.last_updated }}
        </li>
        </div>
        <br />

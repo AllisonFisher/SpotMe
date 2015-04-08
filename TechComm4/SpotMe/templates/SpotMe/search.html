@@ -1,0 +1,8 @@
+<form action="" method="GET">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Send message" />
+</form>
+
+{% for obj in objs %}
+<li>{{ obj }}</li>
+{% endfor %}
