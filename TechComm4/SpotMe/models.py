@@ -11,6 +11,7 @@ class Area(models.Model):
     floor = models.IntegerField(default=6)
     quiet = models.BooleanField(default=False)
     name = models.CharField(max_length=200)
+    directions = models.CharField(max_length=500,default='')
     last_updated = models.DateTimeField('last updated')
     curr_occupancy = models.IntegerField(default=0);
     curr_whiteboards_used = models.IntegerField(default=0);
