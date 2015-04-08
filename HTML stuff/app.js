@@ -21,9 +21,9 @@ app.state.isShowResults = false;
 app.state.results = [];
 app.state.query = {};
 
-/* @function redraw 
-*  @param (Function) next() : optional callback
+/* @function redraw
 *  @param (Object) state : global app state object
+*  @param (Function) next() : optional callback
 *  @return (none)
 *  @async false
 *  @details Redraws the application view given the application state.
@@ -68,7 +68,7 @@ app.performQuery = function(query, next) {
 *  @param (Function) next(err,obj): optional callback function that recieves the error or updated object
 *  @return (none)
 *  @async true
-*  @details If obj.dirty===true, then constructs a server query to 
+*  @details If obj.dirty===true, then constructs a server query to
 *  update the object, sets obj.dirty to false, and calls callback if given
 */
 app.updateObject = function(obj, next) {
@@ -96,7 +96,7 @@ app.init = function() {
 	}
 
 	$('.advancedSearchToggle').on('click', advancedSearchToggle);
-	
+
 	// results
 
 	// redraw our application
