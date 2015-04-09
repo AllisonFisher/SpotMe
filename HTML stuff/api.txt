@@ -1,3 +1,0 @@
-The Query type is a JSON Object 
-
-fun /query: (Query -> [Area])

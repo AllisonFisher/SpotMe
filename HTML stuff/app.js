@@ -10,7 +10,7 @@ app.defaultQuery = {
 	outlets: 0,
 	floor: '6789',
 	quiet: true,
-	availableSeats: 1
+	desiredSeats: 1
 };
 
 /* Our global application state */
@@ -29,7 +29,7 @@ app.state.query = {};
 *  @details Redraws the application view given the application state.
 */
 app.redraw = function(state, next) {
-	// @TODO set .val of search bar to query.availableSeats
+	// @TODO set .val of search bar to query.desiredSeats
 
 	// advanced search
 	if (app.state.isAdvancedSearch) {
@@ -85,8 +85,8 @@ app.updateObject = function(obj, next) {
 */
 app.init = function() {
 	// search bar
-	$('#contentForm input[name="availableSeats"]')
-		.attr("placeholder", app.defaultQuery.availableSeats);
+	$('#contentForm input[name="desiredSeats"]')
+		.attr("placeholder", app.defaultQuery.desiredSeats);
 
 	// advanced search
 	var advancedSearchToggle = function (e) {
