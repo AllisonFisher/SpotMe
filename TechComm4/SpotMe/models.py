@@ -1,4 +1,6 @@
+from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils import timezone
 from rest_framework import serializers
 
 class Area(models.Model):
@@ -12,7 +14,7 @@ class Area(models.Model):
     quiet = models.BooleanField(default=False)
     name = models.CharField(max_length=200)
     directions = models.CharField(max_length=500,default='')
-    last_updated = models.DateTimeField('last updated')
+    last_updated = models.DateTimeField('last updated',default=timezone.now())
     curr_occupancy = models.IntegerField(default=0);
     curr_whiteboards_used = models.IntegerField(default=0);
     curr_tables_used = models.IntegerField(default=0);
@@ -41,5 +43,26 @@ class AreaSerializer(serializers.HyperlinkedModelSerializer):
         model = Area
         fields = ('chairs', 'comfy_chairs', 'tables', 'whiteboard_tables',
                   'whiteboards', 'outlets', 'floor', 'quiet', 'name', 'last_updated',
-                  'curr_occupancy', 'curr_whiteboards_used', 'curr_tables_used')
+                  'curr_occupancy', 'curr_whiteboards_used', 'curr_tables_used',
+                  'id')
 
+class AreaDeSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.ReadOnlyField()
+
+    def to_internal_value(self, data):
+        id = data.get('id')
+        curr_occupancy = data.get('curr_occupancy')
+        curr_whiteboards_used = data.get('curr_whiteboards_used')
+        curr_tables_used = data.get('curr_tables_used')
+
+        return {
+            'id': int(id),
+            'curr_occupancy': int(curr_occupancy),
+            'curr_whiteboards_used': int(curr_whiteboards_used),
+            'curr_tables_used': int(curr_tables_used)
+        }
+
+
+    class Meta:
+        model = Area
+        fields = ('curr_occupancy', 'curr_whiteboards_used', 'curr_tables_used', 'id')
