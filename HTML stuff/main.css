@@ -1,3 +1,14 @@
 body {
   padding-top: 50px;
 }
+
+#resultList > li {
+    text-align: left;
+    margin: 2rem;
+    border: 2px black solid;
+    width: 100%
+}
+
+#resultList > li > img {
+    width: 50%;
+}

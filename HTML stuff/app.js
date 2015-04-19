@@ -1,14 +1,16 @@
 var app = {};
 
+app.areaList = app.fakeData;
+
 /* The default parameters for a query */
 app.defaultQuery = {
 	chairs: 1,
 	comfy_chairs: 1,
 	tables: 1,
 	whiteboard_tables: 1,
-	whiteboards: 1,
+	whiteboard: true,
 	outlets: 0,
-	floor: '6789',
+	floor: [6,7,8,9],
 	quiet: true,
 	desiredSeats: 1
 };
@@ -48,19 +50,78 @@ app.redraw = function(state, next) {
 
 }
 
-/* @function performQuery
-*  @param (String) query : the query string to perform
-*  @param (Function) next(err,data) : the callback function that recieves
-*  an error or the JSON result of a query.
-*  @return (none)
-*  @async true
-*  @details Performs a query. (Asks, recieves, passes along)
+// BEGIN QUERY LOGIC
+
+app.query = {};
+
+// Filter functions
+
+/* @function filterFloor
+*  @param (Array) floorArray : the acceptable floors for a desired area to be on
+*  @return (bool) *unnamed* : whether the area is on one of the desired floors or not
+*  @async false
+*  @details Checks whether an area is on any of the floors given in an array of floors
 */
-app.performQuery = function(query, next) {
-	if (next) {
-		next(null, []);
-	}
+app.query.filterFloor = function (floorArray) {
+    return function (area) {
+        return floorArray.indexOf(area.floor) !== -1;
+    }
 }
+
+/* @function filterChairs
+*  @param (int) chairNum : the number of free chairs for a desired area to have
+*  @return (bool) *unnamed* : whether the area has enough free chairs
+*  @async false
+*  @details Checks whether an area has at least the number of free chairs given
+*/
+app.query.filterChairs = function (chairNum) {
+    return function (area) {
+        return area.chairs >= chairNum;
+    }
+}
+
+/* @function filterWhiteboard
+*  @param (bool) board : whether a whiteboard is desired (true) or not (false)
+*  @return (bool) *unnamed* : whether the area has a whiteboard if wanted or
+*       doesn't have a whiteboard if unwanted
+*  @async false
+*  @details Checks whether an area has the "status" of whiteboard desired
+*/
+app.query.filterWhiteboard = function (board) {
+    return function (area) {
+        return area.whiteboard === board;
+    }
+}
+
+
+/* @function performQuery
+*  @param (Object) query : the query string to perform
+*  @return (Object) filtered : the filtered result list to display
+*  @async false
+*  @details Performs a query- filters the area list based on the
+*       query and returns a result list.
+*
+*       CURRENTLY INCOMPLETE- ONLY FILTERS BY floor, chairs, whiteboard
+*/
+app.performQuery = function(query) {
+	var exists = function (x) {
+        return x != null && x != undefined;
+    }
+    var filtered = app.fakeData;
+    if (exists(query.floor)) {
+        filtered = filtered.filter(app.query.filterFloor(query.floor))
+    }
+    if (exists(query.chairs)) {
+        filtered = filtered.filter(app.query.filterChairs(query.chairs))
+    }
+    if (exists(query.whiteboard)) {
+        filtered = filtered.filter(app.query.filterWhiteboard(query.whiteboard))
+    }
+    return filtered;
+}
+
+
+// END QUERY LOGIC
 
 
 /* @function updateObject
@@ -116,7 +177,7 @@ app.fakeData = [
 	comfy_chairs: 2,
 	tables: 1,
 	whiteboard_tables: 0,
-	whiteboards: 0,
+	whiteboard: false,
 	outlets: 4,
 	floor: 9,
 	quiet: true,
@@ -131,7 +192,7 @@ app.fakeData = [
 	comfy_chairs: 2,
 	tables: 3,
 	whiteboard_tables: 2,
-	whiteboards: 1,
+	whiteboard: true,
 	outlets: 8,
 	floor: 6,
 	quiet: true,
@@ -146,7 +207,7 @@ app.fakeData = [
 	comfy_chairs: 3,
 	tables: 1,
 	whiteboard_tables: 0,
-	whiteboards: 0,
+	whiteboard: false,
 	outlets: 2,
 	floor: 8,
 	quiet: true,
@@ -161,7 +222,7 @@ app.fakeData = [
 	comfy_chairs: 0,
 	tables: 2,
 	whiteboard_tables: 0,
-	whiteboards: 1,
+	whiteboard: true,
 	outlets: 0,
 	floor: 7,
 	quiet: true,
