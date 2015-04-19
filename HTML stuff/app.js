@@ -1,7 +1,5 @@
 var app = {};
 
-app.areaList = app.fakeData;
-
 /* The default parameters for a query */
 app.defaultQuery = {
 	chairs: 1,
@@ -107,7 +105,7 @@ app.performQuery = function(query) {
 	var exists = function (x) {
         return x != null && x != undefined;
     }
-    var filtered = app.fakeData;
+    var filtered = app.areaList;
     if (exists(query.floor)) {
         filtered = filtered.filter(app.query.filterFloor(query.floor))
     }
@@ -159,6 +157,8 @@ app.init = function() {
 	$('.advancedSearchToggle').on('click', advancedSearchToggle);
 
 	// results
+
+    app.areaList = app.fakeData;
 
 	// redraw our application
 	app.redraw(app.state, function() {
