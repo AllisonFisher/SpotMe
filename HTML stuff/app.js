@@ -41,9 +41,14 @@ app.query = {};
 
 app.query.defaultDesiredSeats = 1;
 
-/* An example query with all attributes specified.
+/* An example query with (possibly) all attributes specified.
  * (We don't need a default query. We just won't apply the
  * filters for attributes that aren't included in the query.)
+ *
+ * TODO: change which attributes could be in query?
+ *      do we want id? name?
+ *      how do chairs/comfy_chairs/desiredSeats work?
+ *      which are free ___s and which are total ___s?
  */
 app.query.exampleQuery = {
 	chairs: 1,
@@ -58,7 +63,13 @@ app.query.exampleQuery = {
 };
 
 
-// Filter functions
+// Filter functions (incomplete)
+//
+// TODO:
+// change some functions to check for the number of free ___s instead of the number of total ___s
+// make sure function(s) dealing with chairs/comfy_chairs/desiredSeats are what we want
+// add function(s) to filter by area name and/or id
+// more?
 
 
 /* @function filterTables
@@ -68,7 +79,7 @@ app.query.exampleQuery = {
 *  @details Checks whether an area has at least the number of tables given
 *
 *  NOTE: whiteboard_tables ARE considered tables for this function.
-*  TODO change to FREE tables?
+*  TODO: change to FREE tables?
 */
 app.query.filterTables = function (tableNum) {
     return function (area) {
@@ -82,7 +93,7 @@ app.query.filterTables = function (tableNum) {
 *  @async false
 *  @details Checks whether an area has at least the number of whiteboard_tables given
 *
-*  TODO change to FREE whiteboard_tables?
+*  TODO: change to FREE whiteboard_tables?
 */
 app.query.filterWbTables = function (wbTableNum) {
     return function (area) {
