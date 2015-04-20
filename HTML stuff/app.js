@@ -1,18 +1,5 @@
 var app = {};
 
-/* The default parameters for a query */
-app.defaultQuery = {
-	chairs: 1,
-	comfy_chairs: 1,
-	tables: 1,
-	whiteboard_tables: 1,
-	whiteboard: true,
-	outlets: 0,
-	floor: [6,7,8,9],
-	quiet: true,
-	desiredSeats: 1
-};
-
 /* Our global application state */
 app.state = {};
 
@@ -52,7 +39,83 @@ app.redraw = function(state, next) {
 
 app.query = {};
 
+app.query.defaultDesiredSeats = 1;
+
+/* An example query with all attributes specified.
+ * (We don't need a default query. We just won't apply the
+ * filters for attributes that aren't included in the query.)
+ */
+app.query.exampleQuery = {
+	chairs: 1,
+	comfy_chairs: 1,
+	tables: 1,
+	whiteboard_tables: 1,
+	whiteboard: true,
+	outlets: 0,
+	floor: [6,7,8,9],
+	quiet: true,
+	desiredSeats: 1
+};
+
+
 // Filter functions
+
+
+/* @function filterTables
+*  @param (int) tableNum : the number of tables for a desired area to have
+*  @return (bool) *unnamed* : whether the area has enough total (not necessarily free) tables
+*  @async false
+*  @details Checks whether an area has at least the number of tables given
+*
+*  NOTE: whiteboard_tables ARE considered tables for this function.
+*  TODO change to FREE tables?
+*/
+app.query.filterTables = function (tableNum) {
+    return function (area) {
+        return (area.tables + area.whiteboard_tables) >= tableNum;
+    }
+}
+
+/* @function filterWbTables
+*  @param (int) wbTableNum : the number of whiteboard_tables for a desired area to have
+*  @return (bool) *unnamed* : whether the area has enough total (not necessarily free) whiteboard_tables
+*  @async false
+*  @details Checks whether an area has at least the number of whiteboard_tables given
+*
+*  TODO change to FREE whiteboard_tables?
+*/
+app.query.filterWbTables = function (wbTableNum) {
+    return function (area) {
+        return area.whiteboard_tables >= wbTableNum;
+    }
+}
+
+/* @function filterWhiteboard
+*  @param (bool) board : whether a whiteboard is desired (true) or not (false)
+*  @return (bool) *unnamed* : whether the area has a whiteboard if wanted or
+*       doesn't have a whiteboard if unwanted
+*  @async false
+*  @details Checks whether an area has the "status" of whiteboard desired.
+*
+*  NOTE: whiteboard_tables are NOT considered whiteboards for this function.
+*/
+app.query.filterWhiteboard = function (board) {
+    return function (area) {
+        return area.whiteboard === board;
+    }
+}
+
+/* @function filterOutlets
+*  @param (int) outletNum : the number of outlets for a desired area to have
+*  @return (bool) *unnamed* : whether the area has enough total (not necessarily free) outlets
+*  @async false
+*  @details Checks whether an area has at least the number of outlets given
+*/
+app.query.filterOutlets = function (outletNum) {
+    return function (area) {
+        return area.outlets >= outletNum;
+    }
+}
 
 /* @function filterFloor
 *  @param (Array) floorArray : the acceptable floors for a desired area to be on
@@ -66,31 +129,37 @@ app.query.filterFloor = function (floorArray) {
     }
 }
 
-/* @function filterChairs
-*  @param (int) chairNum : the number of free chairs for a desired area to have
-*  @return (bool) *unnamed* : whether the area has enough free chairs
+/* @function filterQuiet
+*  @param (bool) quiet : whether a quiet area is desired (true) or not (false)
+*  @return (bool) *unnamed* : whether the area is a quiet area if wanted or
+*       not if unwanted
 *  @async false
-*  @details Checks whether an area has at least the number of free chairs given
+*  @details Checks whether an area has the "status" of quiet area desired
 */
-app.query.filterChairs = function (chairNum) {
+app.query.filterQuiet = function (quiet) {
     return function (area) {
-        return area.chairs >= chairNum;
+        return area.quiet === quiet;
     }
 }
 
-/* @function filterWhiteboard
-*  @param (bool) board : whether a whiteboard is desired (true) or not (false)
-*  @return (bool) *unnamed* : whether the area has a whiteboard if wanted or
-*       doesn't have a whiteboard if unwanted
+/* @function filterSeats
+*  @param (int) desiredSeats : the number of free seats for a desired area to have
+*  @return (bool) *unnamed* : whether the area has enough free seats
 *  @async false
-*  @details Checks whether an area has the "status" of whiteboard desired
+*  @details Checks whether an area has at least the number of free seats given. Includes
+*       both chairs and comfy_chairs.
+*
+*  NOT SURE THIS IS RIGHT SINCE IDK WHY WE HAVE chairs, comfy_chairs, AND desiredSeats
 */
-app.query.filterWhiteboard = function (board) {
+app.query.filterSeats = function (desiredSeats) {
     return function (area) {
-        return area.whiteboard === board;
+        var totalSeats = area.chairs + area.comfy_chairs;
+        return (totalSeats - area.current_occupants) >= desiredSeats;
     }
 }
 
+
+// overall Filter function
 
 /* @function performQuery
 *  @param (Object) query : the query string to perform
@@ -106,14 +175,26 @@ app.performQuery = function(query) {
         return x != null && x != undefined;
     }
     var filtered = app.areaList;
-    if (exists(query.floor)) {
-        filtered = filtered.filter(app.query.filterFloor(query.floor))
+    if (exists(query.tables)) {
+        filtered = filtered.filter(app.query.filterTables(query.tables))
     }
-    if (exists(query.chairs)) {
-        filtered = filtered.filter(app.query.filterChairs(query.chairs))
+    if (exists(query.whiteboard_tables)) {
+        filtered = filtered.filter(app.query.filterWbTables(query.whiteboard_tables))
     }
     if (exists(query.whiteboard)) {
         filtered = filtered.filter(app.query.filterWhiteboard(query.whiteboard))
+    }
+    if (exists(query.outlets)) {
+        filtered = filtered.filter(app.query.filterOutlets(query.outlets))
+    }
+    if (exists(query.floor)) {
+        filtered = filtered.filter(app.query.filterFloor(query.floor))
+    }
+    if (exists(query.quiet)) {
+        filtered = filtered.filter(app.query.filterQuiet(query.quiet))
+    }
+    if (exists(query.desiredSeats)) {
+        filtered = filtered.filter(app.query.filterSeats(query.desiredSeats))
     }
     return filtered;
 }
@@ -145,7 +226,7 @@ app.updateObject = function(obj, next) {
 app.init = function() {
 	// search bar
 	$('#contentForm input[name="desiredSeats"]')
-		.attr("placeholder", app.defaultQuery.desiredSeats);
+		.attr("placeholder", app.query.defaultDesiredSeats);
 
 	// advanced search
 	var advancedSearchToggle = function (e) {
