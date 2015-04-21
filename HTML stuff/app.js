@@ -55,7 +55,6 @@ app.drawArea = function (area) {
 app.drawResults = function () {
     var res = app.state.results;
     var strArray = res.map(app.drawArea);
-    var withCommas = strArray.toString();
     return strArray.join(''); // removes commas between elements of array
 }
 
