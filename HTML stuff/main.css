@@ -8,11 +8,17 @@ body {
     border: 2px black solid;
     width: 100%;
     list-style-type: none;
-    float: left;
 }
 
 #resultList > li > img {
     width: 50%;
-    float: left;
+    display: inline-block;
+}
+
+#resultList > li > div {
+    display: inline-block;
+    margin-left: 20px;
+    font-weight: normal;
+    vertical-align: middle;
 }
 

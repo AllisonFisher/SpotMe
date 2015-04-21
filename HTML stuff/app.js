@@ -34,12 +34,12 @@ app.drawPic = function (area) {
 app.drawArea = function (area) {
     var pic = app.drawPic(area);
     var chairs = 'chairs: ' + area.chairs.toString();
-    var tables = '</br>tables: ' + area.tables.toString();
-    var whiteboard = '</br>has a whiteboard: ' + area.whiteboard.toString();
-    var floor = '</br>floor: ' + area.floor.toString();
+    var tables = '<br>tables: ' + area.tables.toString();
+    var whiteboard = '<br>has a whiteboard: ' + area.whiteboard.toString();
+    var floor = '<br>floor: ' + area.floor.toString();
     var spaceLeft = area.chairs + area.comfy_chairs - area.current_occupants;
-    var space = '</br>open seats: ' + spaceLeft.toString() + '</br>';
-    return '<li>'+pic+'<p>'+chairs+tables+whiteboard+floor+space+'</p></li>';
+    var space = '<br>open seats: ' + spaceLeft.toString() + '<br>';
+    return '<li>'+pic+'<div>'+chairs+tables+whiteboard+floor+space+'</div></li>';
 }
 
 
