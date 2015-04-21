@@ -8,6 +8,59 @@ app.state.isShowResults = false;
 app.state.results = [];
 app.state.query = {};
 
+
+// CODE FOR DISPLAYING RESULTS BELOW- probably really hacky...
+//      anybody know how we SHOULD be doing this?
+
+
+/* @function drawPic
+*  @param (area) : a single area
+*  @return (String) : the html code for diplaying area.pic (a picture)
+*  @async ?
+*  @details Returns the string to put in the html code to display and area's pic.
+*/
+app.drawPic = function (area) {
+    var picStr = area.pic;
+    return '<img src='+picStr+' />'
+}
+
+/* @function drawArea
+*  @param (area) : a single area
+*  @return (String) : the html code for diplaying a few attributes of the given area
+*  @async ?
+*  @details Returns the string to put in the html code to display a
+*       bunch of things about the area.
+*/
+app.drawArea = function (area) {
+    var pic = app.drawPic(area);
+    var chairs = 'chairs: ' + area.chairs.toString();
+    var tables = '</br>tables: ' + area.tables.toString();
+    var whiteboard = '</br>has a whiteboard: ' + area.whiteboard.toString();
+    var floor = '</br>floor: ' + area.floor.toString();
+    var spaceLeft = area.chairs + area.comfy_chairs - area.current_occupants;
+    var space = '</br>open seats: ' + spaceLeft.toString() + '</br>';
+    return '<li>'+pic+'<p>'+chairs+tables+whiteboard+floor+space+'</p></li>';
+}
+
+
+/* @function drawResults
+*  @param (array)
+*  @return (String) : a string version of the results list
+*  @async ?
+*  @details Returns a string version of the array
+*
+* TODO : make this display whatever info we actually want.
+*       And make it less hacky???
+*/
+app.drawResults = function () {
+    var res = app.state.results;
+    var strArray = res.map(app.drawArea);
+    var withCommas = strArray.toString();
+    return strArray.join(''); // removes commas between elements of array
+}
+
+
+
 /* @function redraw
 *  @param (Object) state : global app state object
 *  @param (Function) next() : optional callback
@@ -28,6 +81,9 @@ app.redraw = function(state, next) {
 	}
 
 	//@TODO: set form values to appropriate values
+
+    // This displays the actual results list under the "Results" heading.
+    $('#resultList').html(app.drawResults());
 
 	if (next) {
 		next();
@@ -251,6 +307,7 @@ app.init = function() {
 	// results
 
     app.areaList = app.fakeData;
+    app.state.results = app.areaList;
 
 	// redraw our application
 	app.redraw(app.state, function() {
@@ -276,7 +333,8 @@ app.fakeData = [
 	name: 'Gates 9 by elevator',
 	last_updated: 1427655295469,
 	current_occupants: 0,
-	dirty: false
+	dirty: false,
+    pic: '"Pics/Gates 6/back left-0.JPG"'
 },
 {
 	id: 2,
@@ -291,7 +349,8 @@ app.fakeData = [
 	name: 'Gates 6 by Pausch Bridge',
 	last_updated: 1427655295469,
 	current_occupants: 4,
-	dirty: false
+	dirty: false,
+    pic: '"Pics/Gates 6/kitchen-0.JPG"'
 },
 {
 	id: 3,
@@ -306,7 +365,8 @@ app.fakeData = [
 	name: 'Gates 8 by Staircase',
 	last_updated: 1427655295469,
 	current_occupants: 0,
-	dirty: false
+	dirty: false,
+    pic: '"Pics/Gates 6/orange chairs-0.JPG"'
 },
 {
 	id: 4,
@@ -321,6 +381,7 @@ app.fakeData = [
 	name: 'Gates 7 by elevator',
 	last_updated: 1427655295469,
 	current_occupants: 4,
-	dirty: false
+	dirty: false,
+    pic: '"Pics/Gates 7/kitchen-0.JPG"'
 }
 ]

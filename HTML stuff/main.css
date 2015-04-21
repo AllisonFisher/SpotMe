@@ -8,8 +8,11 @@ body {
     border: 2px black solid;
     width: 100%;
     list-style-type: none;
+    float: left;
 }
 
 #resultList > li > img {
     width: 50%;
+    float: left;
 }
+
