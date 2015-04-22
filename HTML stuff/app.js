@@ -9,14 +9,12 @@ app.state.results = [];
 app.state.query = {};
 
 
-// CODE FOR DISPLAYING RESULTS BELOW- probably really hacky...
-//      anybody know how we SHOULD be doing this?
-
+// BEGIN CODE FOR DISPLAYING RESULTS
 
 /* @function drawPic
 *  @param (area) : a single area
 *  @return (String) : the html code for diplaying area.pic (a picture)
-*  @async ?
+*  @async true?
 *  @details Returns the string to put in the html code to display and area's pic.
 */
 app.drawPic = function (area) {
@@ -24,40 +22,68 @@ app.drawPic = function (area) {
     return '<img src='+picStr+' />'
 }
 
+/* @function toYesNo
+*  @param (bool) : any bool
+*  @return (string) : 'Yes' for true or 'No' for false
+*  @async true?
+*  @details Translates true/false to the more natural Yes/No for readability.
+*/
+app.toYesNo = function (tf) {
+    if (tf === true) { return 'Yes';}
+    else { return 'No';}
+}
+
 /* @function drawArea
 *  @param (area) : a single area
-*  @return (String) : the html code for diplaying a few attributes of the given area
-*  @async ?
+*  @return (String) : the html code for diplaying the desired attributes of a given area
+*  @async true?
 *  @details Returns the string to put in the html code to display a
 *       bunch of things about the area.
 */
 app.drawArea = function (area) {
     var pic = app.drawPic(area);
-    var chairs = 'chairs: ' + area.chairs.toString();
-    var tables = '<br>tables: ' + area.tables.toString();
-    var whiteboard = '<br>has a whiteboard: ' + area.whiteboard.toString();
-    var floor = '<br>floor: ' + area.floor.toString();
+    var name = area.name.toString();
+    var floor = area.floor.toString() + 'th floor';
+    var description = 'TODO: we need a description...';
     var spaceLeft = area.chairs + area.comfy_chairs - area.current_occupants;
-    var space = '<br>open seats: ' + spaceLeft.toString() + '<br>';
-    return '<li>'+pic+'<div>'+chairs+tables+whiteboard+floor+space+'</div></li>';
+    var openSeats = 'Open seats: ' + spaceLeft.toString();
+    var chairs = 'Total chairs: ' + area.chairs.toString();
+    var comfyChairs = ', including ' + area.comfy_chairs.toString() + ' comfy chairs';
+    var tables = 'Total tables: ' + area.tables.toString();
+    var wbTables = ', including ' + area.whiteboard_tables.toString() + ' whiteboard tables';
+    var outlets = 'Total outlets: ' + area.outlets.toString();
+    var whiteboard = 'Whiteboard: ' + app.toYesNo(area.whiteboard);
+    var quiet = 'Quiet study: ' + app.toYesNo(area.quiet);
+    var toReturn = '<li>' + pic + '<div>'
+                    + '<h2>' + name + '</h2>' +
+                    floor + '<br>' +
+                    description +
+                    '<br><br>' +
+                    openSeats +
+                    '<br><br>' +
+                    chairs + comfyChairs + '<br>' +
+                    tables + wbTables + '<br>' +
+                    outlets + '<br>' +
+                    whiteboard + '<br>' +
+                    quiet;
+                    + '</div></li>';
+    return toReturn;
 }
+
+// END CODE FOR DISPLAYING RESULTS
 
 
 /* @function drawResults
 *  @param (array)
-*  @return (String) : a string version of the results list
+*  @return (String) : a string version of html code for the results list
 *  @async ?
-*  @details Returns a string version of the array
-*
-* TODO : make this display whatever info we actually want.
-*       And make it less hacky???
+*  @details Returns an html version of the results list so that we can display it.
 */
 app.drawResults = function () {
     var res = app.state.results;
     var strArray = res.map(app.drawArea);
     return strArray.join(''); // removes commas between elements of array
 }
-
 
 
 /* @function redraw
