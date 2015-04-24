@@ -59,8 +59,7 @@ app.drawArea = function (area) {
                     floor + '<br>' +
                     description +
                     '<br><br>' +
-                    openSeats +
-                    '<br><br>' +
+                    '<p><b>' + openSeats + '</b></p>'+
                     chairs + comfyChairs + '<br>' +
                     tables + wbTables + '<br>' +
                     outlets + '<br>' +
