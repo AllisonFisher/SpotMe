@@ -85,35 +85,7 @@ app.drawResults = function () {
 }
 
 
-/* @function redraw
-*  @param (Object) state : global app state object
-*  @param (Function) next() : optional callback
-*  @return (none)
-*  @async false
-*  @details Redraws the application view given the application state.
-*/
-app.redraw = function(state, next) {
-	// @TODO set .val of search bar to query.desiredSeats
 
-	// advanced search
-	if (app.state.isAdvancedSearch) {
-		$('#advancedSearch').removeClass('hidden');
-		$('.advancedSearchToggle').html('Advanced Search ^');
-	} else {
-		$('#advancedSearch').addClass('hidden');
-		$('.advancedSearchToggle').html('Advanced Search >>');
-	}
-
-	//@TODO: set form values to appropriate values
-
-    // This displays the actual results list under the "Results" heading.
-    $('#resultList').html(app.drawResults());
-
-	if (next) {
-		next();
-	}
-
-}
 
 // BEGIN QUERY LOGIC
 
@@ -130,18 +102,17 @@ app.query.defaultDesiredSeats = 1;
  *      how do chairs/comfy_chairs/desiredSeats work?
  *      which are free ___s and which are total ___s?
  */
-app.query.exampleQuery = {
+app.query.defaults = {
 	chairs: 1,
-	comfy_chairs: 1,
-	tables: 1,
-	whiteboard_tables: 1,
-	whiteboard: true,
+	comfy_chairs: 0,
+	tables: 0,
+	whiteboard_tables: 0,
+	whiteboard: false,
 	outlets: 0,
 	floor: [6,7,8,9],
 	quiet: true,
 	desiredSeats: 1
 };
-
 
 // Filter functions (incomplete)
 //
@@ -290,7 +261,35 @@ app.performQuery = function(query) {
     return filtered;
 }
 
+app.buildQuery = function() {
+	var q = {};
+	var formInfo = $('#contentForm').serializeArray();
+	var isSelected = function(attr) {
+		return formInfo.filter(function (elem) {return elem.name === attr}).length > 0;
+	}
 
+	var getSelected = function (attr) {
+		return formInfo.filter(function (elem) {return elem.name === attr})[0].value;
+	}
+
+	if (isSelected("isAdvancedFloors")) {
+		q.floor = [];
+		isSelected("floor6") ? q.floor.push(6) : null;
+		isSelected("floor7") ? q.floor.push(7) : null;
+		isSelected("floor8") ? q.floor.push(8) : null;
+		isSelected("floor9") ? q.floor.push(9) : null;
+	} 
+	if (isSelected("isAdvancedQuietStudy")) {
+		q.quiet = (isSelected("quietStudy") ? getSelected("quietStudy") : null);
+	} 
+	if (isSelected("isAdvancedWhiteboards")) {
+		q.whiteboards = (isSelected("whiteboards") ? getSelected("whiteboards") : null);
+	}
+	if (isSelected("desiredSeats")) {
+		q.desiredSeats = getSelected("desiredSeats");
+	}
+	return q;
+}
 // END QUERY LOGIC
 
 
@@ -308,6 +307,65 @@ app.updateObject = function(obj, next) {
 	}
 }
 
+
+/* @function redraw
+*  @param (Object) state : global app state object
+*  @param (Function) next() : optional callback
+*  @return (none)
+*  @async false
+*  @details Redraws the application view given the application state.
+*/
+app.redraw = function(state, next) {
+	
+
+	// advanced search
+	if (app.state.isAdvancedSearch) {
+		$('#advancedSearch').removeClass('hidden');
+		$('.advancedSearchToggle').html('Advanced Search ^');
+	} else {
+		$('#advancedSearch').addClass('hidden');
+		$('.advancedSearchToggle').html('Advanced Search >>');
+	}
+
+	//@TODO: set form values to appropriate values
+
+	// parse form and perform query
+
+	var q = app.buildQuery();
+	app.state.results = app.performQuery(q);
+	app.state.isShowResults = true;
+
+	// grey out unnecessary form elements
+	if (q.floor !== undefined && q.floor !== null) {
+		$('.floorCheckboxes').removeClass('hidden');
+	} else {
+		$('.floorCheckboxes').addClass('hidden');	
+	}
+
+	if (q.quiet !== undefined && q.quiet !== null) {
+		$('.quietStudyCheckboxes').removeClass('hidden');
+	} else {
+		$('.quietStudyCheckboxes').addClass('hidden');	
+	}
+
+	if (q.whiteboards !== undefined && q.whiteboards !== null) {
+		$('.whiteboardCheckboxes').removeClass('hidden');
+	} else {
+		$('.whiteboardCheckboxes').addClass('hidden');	
+	}
+    // This displays the actual results list under the "Results" heading.
+    if (app.state.isShowResults) {
+    	$('#resultList').html(app.drawResults());  
+    	$('.advancedSearchToggle').html('Filter');   
+    }
+    
+	if (next) {
+		next();
+	}
+
+}
+
+
 /* @function init
 *  @param (none)
 *  @return (none)
@@ -317,7 +375,7 @@ app.updateObject = function(obj, next) {
 app.init = function() {
 	// search bar
 	$('#contentForm input[name="desiredSeats"]')
-		.attr("placeholder", app.query.defaultDesiredSeats);
+		.attr("placeholder", app.query.defaults.desiredSeats);
 
 	// advanced search
 	var advancedSearchToggle = function (e) {
@@ -328,8 +386,27 @@ app.init = function() {
 
 	$('.advancedSearchToggle').on('click', advancedSearchToggle);
 
-	// results
 
+	// search button
+	var searchButtonBinding = function (e) {
+		e.preventDefault();
+		app.redraw();
+	}
+
+	$('.searchButton').on('click', searchButtonBinding);
+    
+    $('#contentForm').change(app.redraw);
+
+    // Listener for changes to "desiredSeats" text input
+    $('input[name=desiredSeats]').on('input', app.redraw);
+
+   	/* End app.query logic */
+
+	// results
+	//app.areaList = jQuery.getJSON("/api/areas/")
+	//app.state.results = app.areaList
+
+	/* Initialize dummy data for display */
     app.areaList = app.fakeData;
     app.state.results = app.areaList;
 

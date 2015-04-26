@@ -31,19 +31,29 @@
 			<button class="searchButton">SpotMe!</button>
 			<button class="advancedSearchToggle">Advanced Search</button>
 			<div id="advancedSearch">
-				<p><input type="checkbox" name="isAdvancedChairs" /><label>Chairs</label><input type="text" name="chairs" /></p>
 				<p>
-					<input type="checkbox" name="isAdvancedFloors" /><label>Floor</label>
-				    <input type= "checkbox" name="floor6"><label>6</label>
-				    <input type= "checkbox" name="floor7"><label>7</label>
-				    <input type= "checkbox" name="floor8"><label>8</label>
-				    <input type= "checkbox" name="floor9"><label>9</label>
+					<label><input type="checkbox" name="isAdvancedFloors" />Floor</label>
+					<div class="floorCheckboxes">
+				    	<label><input type= "checkbox" name="floor6" checked />6</label>
+				    <label><input type= "checkbox" name="floor7" checked />7</label>
+				    <label><input type= "checkbox" name="floor8" checked />8</label>
+				    <label><input type= "checkbox" name="floor9" checked />9</label>
+				    </div>
 				</p>
 				<p>
-					<input type="checkbox" name="isAdvancedQuietStudy" /><label>Quiet Study</label>
-					<fieldset>
-						<input type="radio" name="query" value="yes" /><label>Yes</label>
-						<input type="radio" name="query" value="no" /><label>No</label>
+					<label><input type="checkbox" name="isAdvancedQuietStudy" />
+					Quiet Study</label>
+					<fieldset class="quietStudyCheckboxes">
+						<label><input type="radio" name="quietStudy" value="yes" checked />Yes</label>
+						<label><input type="radio" name="quietStudy" value="no" />No
+						</label>
+					</fieldset>
+				</p>
+				<p>
+					<label><input type="checkbox" name="isAdvancedWhiteboards" />Whiteboards</label>
+					<fieldset class="whiteboardCheckboxes">
+						<label><input type="radio" name="whiteboards" value="yes" checked />Yes</label>
+						<label><input type="radio" name="whiteboards" value="no" />No</label>
 					</fieldset>
 				</p>
 				<button class="searchButton">SpotMe!</button>
@@ -52,25 +62,7 @@
 		</form>
 		<div id="results">
 			<h1>Results</h1>
-            <ul id="resultList">
-<!--            COMMENTED OUT BECAUSE I THINK THIS SHOULD HAPPEN IN THE JS CODE.
-                <li><img src="Pics/Gates 6/kitchen-0.JPG" /></li>
-                <li><img src="Pics/Gates 6/back left-0.JPG" /></li>
-                <li><img src="Pics/Gates 6/orange chairs-0.JPG" /></li>
-                <li><img src="Pics/Gates 7/kitchen-0.JPG" /></li>
-                <li><img src="Pics/Gates 7/back left-0.JPG" /></li>
-                <li><img src="Pics/Gates 7/big area under stairs-0.JPG" /></li>
-                <li><img src="Pics/Gates 8/kitchen-0.JPG" /></li>
-                <li><img src="Pics/Gates 8/back left-0.JPG" /></li>
-                <li><img src="Pics/Gates 8/back right corner-0.JPG" /></li>
-                <li><img src="Pics/Gates 8/elevator-0.JPG" /></li>
-                <li><img src="Pics/Gates 9/kitchen-0.JPG" /></li>
-                <li><img src="Pics/Gates 9/back left-0.JPG" /></li>
-                <li><img src="Pics/Gates 9/back right corner-0.JPG" /></li>
-                <li><img src="Pics/Gates 9/elevator-0.JPG" /></li>
-                <li><img src="Pics/Gates 9/front right-0.JPG" /></li>
-                -->
-            </ul>
+            <ul id="resultList"></ul>
 		</div>
 	</div>
 	<footer>
