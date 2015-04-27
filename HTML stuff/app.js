@@ -389,7 +389,7 @@ app.init = function() {
 	//app.state.results = app.areaList
 
 	/* Initialize dummy data for display */
-    app.areaList = app.fakeData;
+    app.areaList = app.realData;
     app.state.results = app.areaList;
 
 	// redraw our application
