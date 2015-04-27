@@ -79,9 +79,6 @@ app.drawArea = function (area) {
     return toReturn;
 }
 
-// END CODE FOR DISPLAYING RESULTS
-
-
 /* @function drawResults
 *  @param (array)
 *  @return (String) : a string version of html code for the array, which is assumed to be the results list
@@ -92,6 +89,8 @@ app.drawResults = function (res) {
     var strArray = res.map(app.drawArea);
     return strArray.join(''); // removes commas between elements of array
 }
+
+// END CODE FOR DISPLAYING RESULTS
 
 
 // BEGIN QUERY LOGIC
@@ -105,7 +104,7 @@ app.query.defaultDesiredSeats = 1;
  * filters for attributes that aren't included in the query.)
  *
  * TODO: change which attributes could be in query?
- *      do we want id? name?
+ *      do we want id? name? other?
  */
 app.query.defaults = {
 	chairs: 1,
@@ -119,7 +118,7 @@ app.query.defaults = {
 	desiredSeats: 1
 };
 
-// Filter functions (incomplete)
+// Filter functions
 
 /* @function filterTables
 *  @param (int) tableNum : the number of tables for a desired area to have
@@ -179,8 +178,8 @@ app.query.filterQuiet = function (quiet) {
 *  @param (int) desiredSeats : the number of free seats for a desired area to have
 *  @return (bool) *unnamed* : whether the area has enough free seats
 *  @async false
-*  @details Checks whether an area has at least the number of free seats given. Includes
-*       both chairs and comfy_chairs.
+*  @details Checks whether an area has at least the number of free seats given.
+*           (Assumes area.chairs is the total number of seats.)
 */
 app.query.filterSeats = function (desiredSeats) {
     return function (area) {
@@ -188,7 +187,6 @@ app.query.filterSeats = function (desiredSeats) {
         return (totalSeats - area.current_occupants) >= desiredSeats;
     }
 }
-
 
 // overall Filter function
 
@@ -258,6 +256,7 @@ app.buildQuery = function() {
 	}
 	return q;
 }
+
 // END QUERY LOGIC
 
 
@@ -274,7 +273,6 @@ app.updateObject = function(obj, next) {
 		next(null, {});
 	}
 }
-
 
 /* @function redraw
 *  @param (Object) state : global app state object
@@ -324,6 +322,7 @@ app.redraw = function(state, next) {
 	} else {
 		$('.whiteboardCheckboxes').addClass('hidden');
 	}
+
     // This displays the actual results list under the "Results" heading.
     $('#resultsHeading').html('Results ('+results.length.toString() + ')');
     $('#resultList').html(app.drawResults(results));
@@ -373,11 +372,9 @@ app.init = function() {
 
 	// results
 	//app.areaList = jQuery.getJSON("/api/areas/")
-	//app.state.results = app.areaList
 
 	/* Initialize dummy data for display */
     app.areaList = app.realData;
-    app.state.results = app.areaList;
 
 	// redraw our application
 	app.redraw(app.state, function() {
