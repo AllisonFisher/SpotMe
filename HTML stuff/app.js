@@ -85,7 +85,7 @@ app.drawArea = function (area) {
 /* @function drawResults
 *  @param (array)
 *  @return (String) : a string version of html code for the array, which is assumed to be the results list
-*  @async ?
+*  @async true?
 *  @details Returns an html version of the results list so that we can display it.
 */
 app.drawResults = function (res) {
@@ -106,8 +106,6 @@ app.query.defaultDesiredSeats = 1;
  *
  * TODO: change which attributes could be in query?
  *      do we want id? name?
- *      how do chairs/comfy_chairs/desiredSeats work?
- *      which are free ___s and which are total ___s?
  */
 app.query.defaults = {
 	chairs: 1,
@@ -122,13 +120,6 @@ app.query.defaults = {
 };
 
 // Filter functions (incomplete)
-//
-// TODO:
-// change some functions to check for the number of free ___s instead of the number of total ___s
-// make sure function(s) dealing with chairs/comfy_chairs/desiredSeats are what we want
-// add function(s) to filter by area name and/or id
-// more?
-
 
 /* @function filterTables
 *  @param (int) tableNum : the number of tables for a desired area to have
@@ -137,7 +128,6 @@ app.query.defaults = {
 *  @details Checks whether an area has at least the number of tables given
 *
 *  NOTE: whiteboard_tables ARE considered tables for this function.
-*  TODO: change to FREE tables?
 */
 app.query.filterTables = function (tableNum) {
     return function (area) {
@@ -191,8 +181,6 @@ app.query.filterQuiet = function (quiet) {
 *  @async false
 *  @details Checks whether an area has at least the number of free seats given. Includes
 *       both chairs and comfy_chairs.
-*
-*  NOT SURE THIS IS RIGHT SINCE IDK WHY WE HAVE chairs, comfy_chairs, AND desiredSeats
 */
 app.query.filterSeats = function (desiredSeats) {
     return function (area) {
@@ -210,8 +198,6 @@ app.query.filterSeats = function (desiredSeats) {
 *  @async false
 *  @details Performs a query- filters the area list based on the
 *       query and returns a result list.
-*
-*       CURRENTLY INCOMPLETE- ONLY FILTERS BY floor, chairs, whiteboard
 */
 app.performQuery = function(query) {
 	var exists = function (x) {
