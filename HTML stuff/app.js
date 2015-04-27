@@ -279,10 +279,11 @@ app.buildQuery = function() {
 		isSelected("floor9") ? q.floor.push(9) : null;
 	} 
 	if (isSelected("isAdvancedQuietStudy")) {
-		q.quiet = (isSelected("quietStudy") ? getSelected("quietStudy") : null);
+
+		q.quiet = (isSelected("quietStudy") ? getSelected("quietStudy")==="yes" : null);
 	} 
 	if (isSelected("isAdvancedWhiteboards")) {
-		q.whiteboard = (isSelected("whiteboards") ? getSelected("whiteboards") : null);
+		q.whiteboard = (isSelected("whiteboards") ? getSelected("whiteboards")==="yes" : null);
 	}
 	if (isSelected("desiredSeats")) {
 		q.desiredSeats = getSelected("desiredSeats");
