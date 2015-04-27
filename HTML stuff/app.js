@@ -196,7 +196,7 @@ app.query.filterQuiet = function (quiet) {
 */
 app.query.filterSeats = function (desiredSeats) {
     return function (area) {
-        var totalSeats = area.chairs + area.comfy_chairs;
+        var totalSeats = area.chairs;
         return (totalSeats - area.current_occupants) >= desiredSeats;
     }
 }
