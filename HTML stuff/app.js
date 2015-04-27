@@ -4,7 +4,6 @@ var app = {};
 app.state = {};
 
 app.state.isAdvancedSearch = false;
-app.state.isShowResults = false;
 app.state.results = [];
 app.state.query = {};
 
@@ -283,7 +282,7 @@ app.buildQuery = function() {
 		q.quiet = (isSelected("quietStudy") ? getSelected("quietStudy") : null);
 	} 
 	if (isSelected("isAdvancedWhiteboards")) {
-		q.whiteboards = (isSelected("whiteboards") ? getSelected("whiteboards") : null);
+		q.whiteboard = (isSelected("whiteboards") ? getSelected("whiteboards") : null);
 	}
 	if (isSelected("desiredSeats")) {
 		q.desiredSeats = getSelected("desiredSeats");
@@ -333,7 +332,6 @@ app.redraw = function(state, next) {
 
 	var q = app.buildQuery();
 	app.state.results = app.performQuery(q);
-	app.state.isShowResults = true;
 
 	// grey out unnecessary form elements
 	if (q.floor !== undefined && q.floor !== null) {
@@ -348,16 +346,14 @@ app.redraw = function(state, next) {
 		$('.quietStudyCheckboxes').addClass('hidden');	
 	}
 
-	if (q.whiteboards !== undefined && q.whiteboards !== null) {
+	if (q.whiteboard !== undefined && q.whiteboard !== null) {
 		$('.whiteboardCheckboxes').removeClass('hidden');
 	} else {
 		$('.whiteboardCheckboxes').addClass('hidden');	
 	}
     // This displays the actual results list under the "Results" heading.
-    if (app.state.isShowResults) {
-    	$('#resultList').html(app.drawResults());  
-    	$('.advancedSearchToggle').html('Filter');   
-    }
+    $('#resultList').html(app.drawResults());     
+    
     
 	if (next) {
 		next();
