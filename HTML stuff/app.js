@@ -4,9 +4,6 @@ var app = {};
 app.state = {};
 
 app.state.isAdvancedSearch = false;
-app.state.results = [];
-app.state.query = {};
-
 
 // BEGIN CODE FOR DISPLAYING RESULTS
 
@@ -73,17 +70,14 @@ app.drawArea = function (area) {
 
 /* @function drawResults
 *  @param (array)
-*  @return (String) : a string version of html code for the results list
+*  @return (String) : a string version of html code for the array, which is assumed to be the results list
 *  @async ?
 *  @details Returns an html version of the results list so that we can display it.
 */
-app.drawResults = function () {
-    var res = app.state.results;
+app.drawResults = function (res) {
     var strArray = res.map(app.drawArea);
     return strArray.join(''); // removes commas between elements of array
 }
-
-
 
 
 // BEGIN QUERY LOGIC
@@ -281,8 +275,8 @@ app.buildQuery = function() {
 	if (isSelected("isAdvancedQuietStudy")) {
 
 		q.quiet = (isSelected("quietStudy") ? getSelected("quietStudy")==="yes" : null);
-	} 
-	
+	}
+
 	if (isSelected("isAdvancedWhiteboards")) {
 		q.whiteboard = (isSelected("whiteboards") ? getSelected("whiteboards")==="yes" : null);
 	}
@@ -333,7 +327,11 @@ app.redraw = function(state, next) {
 	// parse form and perform query
 
 	var q = app.buildQuery();
-	app.state.results = app.performQuery(q);
+	var results = app.performQuery(q);
+    results = results.sort(
+                function (area1,area2) {
+                    return area1.name - area2.name;
+                });
 
 	// grey out unnecessary form elements
 	if (q.floor !== undefined && q.floor !== null) {
@@ -354,7 +352,7 @@ app.redraw = function(state, next) {
 		$('.whiteboardCheckboxes').addClass('hidden');
 	}
     // This displays the actual results list under the "Results" heading.
-    $('#resultList').html(app.drawResults());
+    $('#resultList').html(app.drawResults(results));
 
 
 	if (next) {
@@ -362,7 +360,6 @@ app.redraw = function(state, next) {
 	}
 
 }
-
 
 /* @function init
 *  @param (none)
