@@ -131,20 +131,6 @@ app.query.filterTables = function (tableNum) {
     }
 }
 
-/* @function filterWbTables
-*  @param (int) wbTableNum : the number of whiteboard_tables for a desired area to have
-*  @return (bool) *unnamed* : whether the area has enough total (not necessarily free) whiteboard_tables
-*  @async false
-*  @details Checks whether an area has at least the number of whiteboard_tables given
-*
-*  TODO: change to FREE whiteboard_tables?
-*/
-app.query.filterWbTables = function (wbTableNum) {
-    return function (area) {
-        return area.whiteboard_tables >= wbTableNum;
-    }
-}
-
 /* @function filterWhiteboard
 *  @param (bool) board : whether a whiteboard is desired (true) or not (false)
 *  @return (bool) *unnamed* : whether the area has a whiteboard if wanted or
@@ -157,18 +143,6 @@ app.query.filterWbTables = function (wbTableNum) {
 app.query.filterWhiteboard = function (board) {
     return function (area) {
         return area.whiteboard === board;
-    }
-}
-
-/* @function filterOutlets
-*  @param (int) outletNum : the number of outlets for a desired area to have
-*  @return (bool) *unnamed* : whether the area has enough total (not necessarily free) outlets
-*  @async false
-*  @details Checks whether an area has at least the number of outlets given
-*/
-app.query.filterOutlets = function (outletNum) {
-    return function (area) {
-        return area.outlets >= outletNum;
     }
 }
 
@@ -233,14 +207,8 @@ app.performQuery = function(query) {
     if (exists(query.tables)) {
         filtered = filtered.filter(app.query.filterTables(query.tables))
     }
-    if (exists(query.whiteboard_tables)) {
-        filtered = filtered.filter(app.query.filterWbTables(query.whiteboard_tables))
-    }
     if (exists(query.whiteboard)) {
         filtered = filtered.filter(app.query.filterWhiteboard(query.whiteboard))
-    }
-    if (exists(query.outlets)) {
-        filtered = filtered.filter(app.query.filterOutlets(query.outlets))
     }
     if (exists(query.floor)) {
         filtered = filtered.filter(app.query.filterFloor(query.floor))
