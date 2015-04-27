@@ -277,11 +277,12 @@ app.buildQuery = function() {
 		isSelected("floor7") ? q.floor.push(7) : null;
 		isSelected("floor8") ? q.floor.push(8) : null;
 		isSelected("floor9") ? q.floor.push(9) : null;
-	} 
+	}
 	if (isSelected("isAdvancedQuietStudy")) {
 
 		q.quiet = (isSelected("quietStudy") ? getSelected("quietStudy")==="yes" : null);
 	} 
+	
 	if (isSelected("isAdvancedWhiteboards")) {
 		q.whiteboard = (isSelected("whiteboards") ? getSelected("whiteboards")==="yes" : null);
 	}
@@ -316,7 +317,7 @@ app.updateObject = function(obj, next) {
 *  @details Redraws the application view given the application state.
 */
 app.redraw = function(state, next) {
-	
+
 
 	// advanced search
 	if (app.state.isAdvancedSearch) {
@@ -338,24 +339,24 @@ app.redraw = function(state, next) {
 	if (q.floor !== undefined && q.floor !== null) {
 		$('.floorCheckboxes').removeClass('hidden');
 	} else {
-		$('.floorCheckboxes').addClass('hidden');	
+		$('.floorCheckboxes').addClass('hidden');
 	}
 
 	if (q.quiet !== undefined && q.quiet !== null) {
 		$('.quietStudyCheckboxes').removeClass('hidden');
 	} else {
-		$('.quietStudyCheckboxes').addClass('hidden');	
+		$('.quietStudyCheckboxes').addClass('hidden');
 	}
 
 	if (q.whiteboard !== undefined && q.whiteboard !== null) {
 		$('.whiteboardCheckboxes').removeClass('hidden');
 	} else {
-		$('.whiteboardCheckboxes').addClass('hidden');	
+		$('.whiteboardCheckboxes').addClass('hidden');
 	}
     // This displays the actual results list under the "Results" heading.
-    $('#resultList').html(app.drawResults());     
-    
-    
+    $('#resultList').html(app.drawResults());
+
+
 	if (next) {
 		next();
 	}
@@ -391,7 +392,7 @@ app.init = function() {
 	}
 
 	$('.searchButton').on('click', searchButtonBinding);
-    
+
     $('#contentForm').change(app.redraw);
 
     // Listener for changes to "desiredSeats" text input
@@ -428,7 +429,7 @@ app.fakeData = [
 	outlets: 4,
 	floor: 9,
 	quiet: true,
-	name: 'Gates 9 by elevator',
+	name: 9235,
 	last_updated: 1427655295469,
 	current_occupants: 0,
 	dirty: false,
@@ -444,7 +445,7 @@ app.fakeData = [
 	outlets: 8,
 	floor: 6,
 	quiet: true,
-	name: 'Gates 6 by Pausch Bridge',
+	name: 6702,
 	last_updated: 1427655295469,
 	current_occupants: 4,
 	dirty: false,
@@ -460,7 +461,7 @@ app.fakeData = [
 	outlets: 2,
 	floor: 8,
 	quiet: true,
-	name: 'Gates 8 by Staircase',
+	name: 8105,
 	last_updated: 1427655295469,
 	current_occupants: 0,
 	dirty: false,
@@ -476,7 +477,7 @@ app.fakeData = [
 	outlets: 0,
 	floor: 7,
 	quiet: true,
-	name: 'Gates 7 by elevator',
+	name: 7438,
 	last_updated: 1427655295469,
 	current_occupants: 4,
 	dirty: false,
