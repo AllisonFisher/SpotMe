@@ -13,8 +13,8 @@ body {
     text-align: left;
 }
 
-#resultList > h1 {
-    margin-left: 55px;
+#results > h1 {
+    margin-left: 60px;
 }
 #resultList > li {
     text-align: left;

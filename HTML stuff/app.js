@@ -339,7 +339,7 @@ app.redraw = function(state, next) {
 		$('.whiteboardCheckboxes').addClass('hidden');
 	}
     // This displays the actual results list under the "Results" heading.
-    $('#Results').html('Results ('+results.length.toString() + ')');
+    $('#resultsHeading').html('Results ('+results.length.toString() + ')');
     $('#resultList').html(app.drawResults(results));
 
 
