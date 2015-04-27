@@ -4,6 +4,17 @@ var app = {};
 app.state = {};
 
 app.state.isAdvancedSearch = false;
+app.areaList = [];
+
+app.decrementAreaFactory = function (areaName) {
+	return function () {
+		q = app.buildQuery();
+		area = app.areaList.filter(function (x) { return x.name === areaName; })[0];
+		area.current_occupants += q.desiredSeats;
+		app.redraw();
+		console.log(areaName + " loses " + q.desiredSeats);
+	}
+}
 
 // BEGIN CODE FOR DISPLAYING RESULTS
 
@@ -50,6 +61,7 @@ app.drawArea = function (area) {
     var outlets = 'Total outlets: ' + area.outlets.toString();
     var whiteboard = 'Whiteboard: ' + app.toYesNo(area.whiteboard);
     var quiet = 'Quiet study: ' + app.toYesNo(area.quiet);
+    var id = area.name;
     var toReturn = '<li>' + pic + '<div>'
                     + '<h2>' + name + '</h2>' +
                     floor + '<br>' +
@@ -60,7 +72,9 @@ app.drawArea = function (area) {
                     tables + wbTables + '<br>' +
                     outlets + '<br>' +
                     whiteboard + '<br>' +
-                    quiet;
+                    quiet + 
+
+                    '<button class="spotMeButton" onclick=app.decrementAreaFactory("' + id + '")()> SpotMe! </button>'
                     + '</div></li>';
     return toReturn;
 }
