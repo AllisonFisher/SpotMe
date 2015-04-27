@@ -454,3 +454,55 @@ app.fakeData = [
     pic: '"Pics/Gates 7/kitchen-0.JPG"'
 }
 ]
+
+app.realData = [
+{
+	id: 0,
+	chairs: 54,
+	comfy_chairs: 24,
+	tables: 11,
+	whiteboard_tables: 0,
+	whiteboard: false,
+	outlets: 10,
+	floor: 6,
+	quiet: true,
+	name: 6101,
+	last_updated: Date.now(),
+	current_occupants: 0,
+	dirty: false,
+    pic: '"Pics/Gates 6/orange chairs-0.JPG"'
+},
+{
+	id: 1,
+	chairs: 21,
+	comfy_chairs: 3,
+	tables: 5,
+	whiteboard_tables: 2,
+	whiteboard: true,
+	outlets: 18,
+	floor: 6,
+	quiet: true,
+	name: 6012,
+	last_updated: Date.now(),
+	current_occupants: 0,
+	dirty: false,
+    pic: '"Pics/Gates 6/back left-0.JPG"'
+}
+{
+	id: 2,
+	chairs: 10,
+	comfy_chairs: 10,
+	tables: 4,
+	whiteboard_tables: 0,
+	whiteboard: true,
+	outlets: 8,
+	floor: 6,
+	quiet: false,
+	name: 6210,
+	last_updated: Date.now(),
+	current_occupants: 0,
+	dirty: false,
+    pic: '"Pics/Gates 6/kitchen-0.JPG"'
+}
+]
+
