@@ -260,6 +260,13 @@ app.performQuery = function(query) {
     return filtered;
 }
 
+/* @function buildQuery
+*  @return (Object) : a query object
+*  @async false?
+*  @details : Serializes the info from the advanced search form. Builds a query object
+*             and returns it.
+*/
+
 app.buildQuery = function() {
 	var q = {};
 	var formInfo = $('#contentForm').serializeArray();
@@ -282,7 +289,7 @@ app.buildQuery = function() {
 
 		q.quiet = (isSelected("quietStudy") ? getSelected("quietStudy")==="yes" : null);
 	} 
-	
+
 	if (isSelected("isAdvancedWhiteboards")) {
 		q.whiteboard = (isSelected("whiteboards") ? getSelected("whiteboards")==="yes" : null);
 	}
