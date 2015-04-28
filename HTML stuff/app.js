@@ -8,7 +8,8 @@ app.areaList = [];
 
 app.decrementAreaFactory = function (areaName) {
 	return function () {
-		q = app.buildQuery();
+		var q = app.buildQuery();
+		
 		area = app.areaList.filter(function (x) { return x.name.toString() === areaName.toString(); })[0];
 		area.current_occupants += parseInt(q.desiredSeats,10);
 		app.redraw();
@@ -73,8 +74,8 @@ app.drawArea = function (area) {
                     outlets + '<br />' +
                     whiteboard + '<br />' +
                     quiet + '<br /><br />'+
-                    '<select class="spotOption"> <option>Checking in</option> <option>Checking out</option> <option>Reporting</option></select>' +
-                    ' <input type="text" class="confirmDesiredSeats" /> people.'+ 
+                    '<form class="submitForm" id="'+ id +'" ><select class="spotOption"> <option>Checking in</option> <option>Checking out</option> <option>Reporting</option></select>' +
+                    ' <input type="text" class="confirmDesiredSeats" /> people.  </form>'+ 
                     '<button class="spotMeButton" onclick=app.decrementAreaFactory("' + id + '")()> SpotMe! </button>'
                     + '</div></li>';
     return toReturn;
@@ -260,7 +261,7 @@ app.buildQuery = function() {
 	}
 
 	// Check if the confirmDesiredSeats value would override the current q.desiredSeats
-	var confirmInfo = $('#confirmDesiredSeats').serialize();
+	var confirmInfo = $('.confirmDesiredSeats').serialize();
 	console.log(confirmInfo);
 
 	return q;
@@ -313,7 +314,7 @@ app.redraw = function(state, next) {
                     return area1.name - area2.name;
                 });
 
-	// grey out unnecessary form elements
+	// hide unnecessary form elements
 	if (q.floor !== undefined && q.floor !== null) {
 		$('.floorCheckboxes').removeClass('hidden');
 	} else {
@@ -332,6 +333,9 @@ app.redraw = function(state, next) {
 		$('.whiteboardCheckboxes').addClass('hidden');
 	}
 
+
+	// Make the desiredSeats show up in each of the SpotMe text boxes
+	$('.confirmDesiredSeats input').val(q.desiredSeats.toString());
     // This displays the actual results list under the "Results" heading.
     $('#resultsHeading').html('Results ('+results.length.toString() + ')');
     $('#resultList').html(app.drawResults(results));
@@ -353,6 +357,10 @@ app.init = function() {
 	// search bar
 	$('#contentForm input[name="desiredSeats"]')
 		.attr("placeholder", app.query.defaults.desiredSeats);
+
+	var q = app.buildQuery();
+	// confirm spotme text inputs
+	//$('.confirmDesiredSeats')[0]   .attr("placeholder", 1);
 
 	// advanced search
 	var advancedSearchToggle = function (e) {
