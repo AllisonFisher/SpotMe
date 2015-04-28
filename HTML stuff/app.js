@@ -83,13 +83,13 @@ app.drawArea = function (area) {
     var id = area.name;
     var defaultNumPpl = app.buildQuery().desiredSeats; // default # of ppl to check in/out
     var buttonString =
-        '<select class="spotOption">' +
+        '<form class="submitForm"> <select class="spotOption">' +
             '<option>Checking in</option>' +
             '<option>Checking out</option>' +
             '<option>Reporting</option>' +
         '</select>' +
         ' <input type="text" class="confirmDesiredSeats" placeholder="'
-            + defaultNumPpl.toString() + '" /> people. ' +
+            + defaultNumPpl.toString() + '" /> people. </form>' +
         '<button class="spotMeButton" onclick=app.decrementAreaFactory("' + id + '")()> SpotMe! </button>'
 
     var toReturn = areaInfoList + buttonString + '</div></li>';
