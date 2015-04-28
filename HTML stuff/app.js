@@ -9,7 +9,7 @@ app.areaList = [];
 app.decrementAreaFactory = function (areaName) {
 	return function () {
 		var q = app.buildQuery();
-		
+
 		area = app.areaList.filter(function (x) { return x.name.toString() === areaName.toString(); })[0];
 		area.current_occupants += parseInt(q.desiredSeats,10);
 		app.redraw();
@@ -64,26 +64,27 @@ app.drawArea = function (area) {
     var quiet = 'Quiet study: ' + app.toYesNo(area.quiet);
     var id = area.name;
     var defaultNumPpl = app.buildQuery().desiredSeats; // default # of ppl to check in/out
-    var toReturn = '<li>' + pic + '<div>'
-                    + '<h2>' + name + '</h2>' +
-                    floor + '<br />' +
-                    description +
-                    '<br /><br /' +
-                    '<p><b>' + openSeats + '</b></p>'+
-                    chairs + comfyChairs + '<br />' +
-                    tables + wbTables + '<br />' +
-                    outlets + '<br />' +
-                    whiteboard + '<br />' +
-                    quiet + '<br /><br />'+
-                    '<form class="submitForm" id="'+ id +'" ><select class="spotOption"> <option>Checking in</option> <option>Checking out</option> <option>Reporting</option></select>' +
-                    ' <input type="text" class="confirmDesiredSeats" /> people.  </form>'+ 
-                    '<select class="spotOption">' +
-                        '<option>Checking in</option>' +
-                        '<option>Checking out</option>' +
-                        '<option>Reporting</option>' +
-                    '</select>' +
-                    ' <input type="text" class="confirmDesiredSeats" placeholder="'
-                        + defaultNumPpl.toString() + '" /> people.' +
+    var toReturn =
+        '<li>' + pic + '<div>'
+        + '<h2>' + name + '</h2>' +
+        floor + '<br />' +
+        description +
+        '<br /><br /' +
+        '<p><b>' + openSeats + '</b></p>'+
+        chairs + comfyChairs + '<br />' +
+        tables + wbTables + '<br />' +
+        outlets + '<br />' +
+        whiteboard + '<br />' +
+        quiet + '<br /><br />'+
+            '<select class="spotOption">' +
+                '<option>Checking in</option>' +
+                '<option>Checking out</option>' +
+                '<option>Reporting</option>' +
+            '</select>' +
+            ' <input type="text" class="confirmDesiredSeats" placeholder="'
+                + defaultNumPpl.toString() + '" /> people. ' +
+            '<button class="spotMeButton" onclick=app.decrementAreaFactory("' + id + '")()> SpotMe! </button>'
+        + '</div></li>';
     return toReturn;
 }
 
