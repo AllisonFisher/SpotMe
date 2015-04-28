@@ -49,6 +49,9 @@ app.toYesNo = function (tf) {
 *       bunch of things about the area.
 */
 app.drawArea = function (area) {
+
+    // strings of area attributes
+
     var pic = app.drawPic(area);
     var name = area.name.toString();
     var floor = area.floor.toString() + 'th floor';
@@ -62,9 +65,7 @@ app.drawArea = function (area) {
     var outlets = 'Total outlets: ' + area.outlets.toString();
     var whiteboard = 'Whiteboard: ' + app.toYesNo(area.whiteboard);
     var quiet = 'Quiet study: ' + app.toYesNo(area.quiet);
-    var id = area.name;
-    var defaultNumPpl = app.buildQuery().desiredSeats; // default # of ppl to check in/out
-    var toReturn =
+    var areaInfoList =
         '<li>' + pic + '<div>'
         + '<h2>' + name + '</h2>' +
         floor + '<br />' +
@@ -75,7 +76,13 @@ app.drawArea = function (area) {
         tables + wbTables + '<br />' +
         outlets + '<br />' +
         whiteboard + '<br />' +
-        quiet + '<br /><br />'+
+        quiet + '<br /><br />'
+
+    // button stuff
+
+    var id = area.name;
+    var defaultNumPpl = app.buildQuery().desiredSeats; // default # of ppl to check in/out
+    var toReturn = areaInfoList +
             '<select class="spotOption">' +
                 '<option>Checking in</option>' +
                 '<option>Checking out</option>' +
