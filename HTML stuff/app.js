@@ -4,13 +4,14 @@ var app = {};
 app.state = {};
 
 app.state.isAdvancedSearch = false;
+app.state.
 app.areaList = [];
 
 app.decrementAreaFactory = function (areaName) {
 	return function () {
 		q = app.buildQuery();
-		area = app.areaList.filter(function (x) { return x.name === areaName; })[0];
-		area.current_occupants += q.desiredSeats;
+		area = app.areaList.filter(function (x) { return x.name.toString() === areaName.toString(); })[0];
+		area.current_occupants += parseInt(q.desiredSeats,10);
 		app.redraw();
 		console.log(areaName + " loses " + q.desiredSeats);
 	}
@@ -64,16 +65,17 @@ app.drawArea = function (area) {
     var id = area.name;
     var toReturn = '<li>' + pic + '<div>'
                     + '<h2>' + name + '</h2>' +
-                    floor + '<br>' +
+                    floor + '<br />' +
                     description +
-                    '<br><br>' +
+                    '<br /><br /' +
                     '<p><b>' + openSeats + '</b></p>'+
-                    chairs + comfyChairs + '<br>' +
-                    tables + wbTables + '<br>' +
-                    outlets + '<br>' +
-                    whiteboard + '<br>' +
-                    quiet +
-
+                    chairs + comfyChairs + '<br />' +
+                    tables + wbTables + '<br />' +
+                    outlets + '<br />' +
+                    whiteboard + '<br />' +
+                    quiet + '<br /><br />'+
+                    '<select class="spotOption"> <option>Checking in</option> <option>Checking out</option> <option>Reporting</option></select>' +
+                    ' <input type="text" class="confirmDesiredSeats" /> people.'+ 
                     '<button class="spotMeButton" onclick=app.decrementAreaFactory("' + id + '")()> SpotMe! </button>'
                     + '</div></li>';
     return toReturn;
@@ -198,7 +200,7 @@ app.query.filterSeats = function (desiredSeats) {
 *       query and returns a result list.
 */
 app.performQuery = function(query) {
-	var exists = function (x) {
+	exists = function (x) {
         return x != null && x != undefined;
     }
     var filtered = app.areaList;
@@ -253,7 +255,15 @@ app.buildQuery = function() {
 	}
 	if (isSelected("desiredSeats")) {
 		q.desiredSeats = getSelected("desiredSeats");
+		if (q.desiredSeats.length < 1) {
+			q.desiredSeats = app.query.defaults.desiredSeats;
+		}
 	}
+
+	// Check if the confirmDesiredSeats value would override the current q.desiredSeats
+	var confirmInfo = $('#confirmDesiredSeats').serialize();
+	console.log(confirmInfo);
+
 	return q;
 }
 
