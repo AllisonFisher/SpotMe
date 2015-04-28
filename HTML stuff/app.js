@@ -62,6 +62,7 @@ app.drawArea = function (area) {
     var whiteboard = 'Whiteboard: ' + app.toYesNo(area.whiteboard);
     var quiet = 'Quiet study: ' + app.toYesNo(area.quiet);
     var id = area.name;
+    var defaultNumPpl = app.buildQuery().desiredSeats; // default # of ppl to check in/out
     var toReturn = '<li>' + pic + '<div>'
                     + '<h2>' + name + '</h2>' +
                     floor + '<br />' +
@@ -73,8 +74,13 @@ app.drawArea = function (area) {
                     outlets + '<br />' +
                     whiteboard + '<br />' +
                     quiet + '<br /><br />'+
-                    '<select class="spotOption"> <option>Checking in</option> <option>Checking out</option> <option>Reporting</option></select>' +
-                    ' <input type="text" class="confirmDesiredSeats" /> people.'+ 
+                    '<select class="spotOption">' +
+                        '<option>Checking in</option>' +
+                        '<option>Checking out</option>' +
+                        '<option>Reporting</option>' +
+                    '</select>' +
+                    ' <input type="text" class="confirmDesiredSeats" placeholder="'
+                        + defaultNumPpl.toString() + '" /> people.' +
                     '<button class="spotMeButton" onclick=app.decrementAreaFactory("' + id + '")()> SpotMe! </button>'
                     + '</div></li>';
     return toReturn;
