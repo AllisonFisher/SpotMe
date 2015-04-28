@@ -4,7 +4,6 @@ var app = {};
 app.state = {};
 
 app.state.isAdvancedSearch = false;
-app.state.
 app.areaList = [];
 
 app.decrementAreaFactory = function (areaName) {
