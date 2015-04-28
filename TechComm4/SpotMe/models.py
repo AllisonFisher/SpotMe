@@ -18,6 +18,8 @@ class Area(models.Model):
     curr_occupancy = models.IntegerField(default=0);
     curr_whiteboards_used = models.IntegerField(default=0);
     curr_tables_used = models.IntegerField(default=0);
+    picture_url = models.CharField(max_length=200,default='')
+
 
     def max_occupancy(self):
         return self.chairs + self.comfy_chairs
