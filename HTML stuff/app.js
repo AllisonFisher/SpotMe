@@ -84,7 +84,7 @@ app.drawArea = function (area) {
     // strings of area attributes
 
     var pic = app.drawPic(area);
-    var name = area.name.toString();
+    var name = 'GHC ' + area.name.toString();
     var floor = area.floor.toString() + 'th floor';
     var description = 'TODO: we need a description...';
     var spaceLeft = area.chairs - area.current_occupants;
