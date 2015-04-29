@@ -8,12 +8,43 @@ app.areaList = [];
 
 app.decrementAreaFactory = function (areaName) {
 	return function () {
-		var q = app.buildQuery();
+        var q = app.buildQuery();
+ 	    var results = app.performQuery(q);
+        results = results.sort(
+                function (area1,area2) {
+                    return area1.name - area2.name;
+                });
+        var num = q.desiredSeats;
 
 		area = app.areaList.filter(function (x) { return x.name.toString() === areaName.toString(); })[0];
-		area.current_occupants += parseInt(q.desiredSeats,10);
+        var areaIdx = results.indexOf(area);
+
+
+        var newNum = document.getElementsByClassName("confirmDesiredSeats")[areaIdx];
+        var opt = document.getElementsByClassName("spotOption")[areaIdx];
+
+        if (newNum !== null && newNum.value.length >= 1) {
+            var num = parseInt(newNum.value, 10);
+        }
+        switch (opt.value) {
+            case "Checking in" :
+                area.current_occupants += num;
+                area.current_occupants = Math.min(area.current_occupants, area.chairs);
+                break;
+            case "Checking out" :
+                area.current_occupants -= num;
+                area.current_occupants = Math.max(area.current_occupants, 0);
+                break;
+            case "Reporting" :
+                area.current_occupants = num;
+                if (area.current_occupants < 0) {
+                    area.current_occupants = 0;
+                }
+                if (area.current_occupants > area.chairs) {
+                    area.current_occupants = area.chairs;
+                }
+        }
 		app.redraw();
-		console.log(areaName + " loses " + q.desiredSeats);
 	}
 }
 
