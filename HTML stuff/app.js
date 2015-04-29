@@ -252,17 +252,19 @@ app.performQuery = function(query) {
         return x != null && x != undefined;
     }
     var filtered = app.areaList;
-    if (exists(query.tables)) {
-        filtered = filtered.filter(app.query.filterTables(query.tables))
-    }
-    if (exists(query.whiteboard)) {
-        filtered = filtered.filter(app.query.filterWhiteboard(query.whiteboard))
-    }
-    if (exists(query.floor)) {
-        filtered = filtered.filter(app.query.filterFloor(query.floor))
-    }
-    if (exists(query.quiet)) {
-        filtered = filtered.filter(app.query.filterQuiet(query.quiet))
+    if (app.state.isAdvancedSearch) {
+        if (exists(query.tables)) {
+            filtered = filtered.filter(app.query.filterTables(query.tables))
+        }
+        if (exists(query.whiteboard)) {
+            filtered = filtered.filter(app.query.filterWhiteboard(query.whiteboard))
+        }
+        if (exists(query.floor)) {
+            filtered = filtered.filter(app.query.filterFloor(query.floor))
+        }
+        if (exists(query.quiet)) {
+            filtered = filtered.filter(app.query.filterQuiet(query.quiet))
+        }
     }
     if (exists(query.desiredSeats)) {
         filtered = filtered.filter(app.query.filterSeats(query.desiredSeats))
