@@ -10,8 +10,24 @@ body {
 }
 
 #advancedSearch {
+    margin-left: auto;
+    margin-right: auto;
     text-align: left;
 }
+
+#advancedSearch > div {
+    padding-left: 50px;
+}
+
+#advancedSearch > fieldset > label {
+    font-weight: normal;
+    text-indent: 50px;
+}
+
+#advancedSearch > div > label {
+    font-weight: normal;
+}
+
 
 #results > h1 {
     margin-left: 60px;
