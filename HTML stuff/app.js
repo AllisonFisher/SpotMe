@@ -89,6 +89,7 @@ app.drawArea = function (area) {
     var description = 'TODO: we need a description...';
     var spaceLeft = area.chairs - area.current_occupants;
     var openSeats = 'Open seats: ' + spaceLeft.toString();
+    var current = 'Current occupancy: ' + area.current_occupants.toString();
     var chairs = 'Total chairs: ' + area.chairs.toString();
     var comfyChairs = ', including ' + area.comfy_chairs.toString() + ' comfy chairs';
     var tables = 'Total tables: ' + area.tables.toString();
@@ -102,7 +103,8 @@ app.drawArea = function (area) {
         floor + '<br />' +
         description +
         '<br /><br /' +
-        '<p><b>' + openSeats + '</b></p>'+
+        '<p><b>' + openSeats + '</b><br />'+
+        '<b>' + current + '</b></p>' +
         chairs + comfyChairs + '<br />' +
         tables + wbTables + '<br />' +
         outlets + '<br />' +
