@@ -6,15 +6,68 @@ app.state = {};
 app.state.isAdvancedSearch = false;
 app.areaList = [];
 
+app.keepInLimits = function (area) {
+    var success = true;
+    if (area.current_occupants < 0) {
+        area.current_occupants = 0;
+        success = false;
+    }
+    if (area.current_occupants > area.chairs) {
+        area.current_occupants = area.chairs;
+        success = false;
+    }
+    return success;
+}
+
 app.decrementAreaFactory = function (areaName) {
 	return function () {
-		var q = app.buildQuery();
+        var q = app.buildQuery();
+ 	    var results = app.performQuery(q);
+        results = results.sort(
+                function (area1,area2) {
+                    return area1.name - area2.name;
+                });
+        var num = q.desiredSeats;
 
-		area = app.areaList.filter(function (x) { return x.name.toString() === areaName.toString(); })[0];
-		area.current_occupants += parseInt(q.desiredSeats,10);
+		area = app.areaList.filter(function (x) {
+            return x.name.toString() === areaName.toString();
+        })[0];
+        var areaIdx = results.indexOf(area);
+
+        var newNum = document.getElementsByClassName("confirmDesiredSeats")[areaIdx];
+        var opt = document.getElementsByClassName("spotOption")[areaIdx];
+
+        if (newNum !== null && newNum.value.length >= 1) {
+            var num = parseInt(newNum.value, 10);
+        }
+        var success = true;
+        if (num >= 0){
+            switch (opt.value) {
+                case "Checking in" :
+                    area.current_occupants += num;
+                    success = app.keepInLimits(area);
+                    break;
+                case "Checking out" :
+                    area.current_occupants -= num;
+                    success = app.keepInLimits(area);
+                    break;
+                case "Reporting" :
+                    area.current_occupants = num;
+                    success = app.keepInLimits(area);
+            }
+        }
+        else{
+            success = false;
+        }
+
 		app.redraw();
-		console.log(areaName + " loses " + q.desiredSeats);
-	}
+	    if (success === true) {
+            $('#stat'+ areaName.toString()).attr("style","BACKGROUND-COLOR: #B2FF99");
+        }
+        else {
+            $('#but' + areaName.toString()).attr("style","BACKGROUND-COLOR: #FF9999");
+        }
+    }
 }
 
 // BEGIN CODE FOR DISPLAYING RESULTS
@@ -51,13 +104,13 @@ app.toYesNo = function (tf) {
 app.drawArea = function (area) {
 
     // strings of area attributes
-
     var pic = app.drawPic(area);
-    var name = area.name.toString();
+    var name = 'GHC ' + area.name.toString();
     var floor = area.floor.toString() + 'th floor';
     var description = 'TODO: we need a description...';
     var spaceLeft = area.chairs - area.current_occupants;
     var openSeats = 'Open seats: ' + spaceLeft.toString();
+    var current = 'Current occupancy: ' + area.current_occupants.toString();
     var chairs = 'Total chairs: ' + area.chairs.toString();
     var comfyChairs = ', including ' + area.comfy_chairs.toString() + ' comfy chairs';
     var tables = 'Total tables: ' + area.tables.toString();
@@ -70,8 +123,9 @@ app.drawArea = function (area) {
         + '<h2>' + name + '</h2>' +
         floor + '<br />' +
         description +
-        '<br /><br /' +
-        '<p><b>' + openSeats + '</b></p>'+
+        '<br /><br />' +
+        '<p class="status" id=stat'+area.name.toString() + '><b>' + openSeats + '</b><br />'+
+        '<b>' + current + '</b></p>' +
         chairs + comfyChairs + '<br />' +
         tables + wbTables + '<br />' +
         outlets + '<br />' +
@@ -88,7 +142,7 @@ app.drawArea = function (area) {
             '<option>Checking out</option>' +
             '<option>Reporting</option>' +
         '</select>' +
-        ' <input type="text" class="confirmDesiredSeats" placeholder="'
+        ' <input type="text" id=but'+ area.name.toString() + ' class="confirmDesiredSeats" placeholder="'
             + defaultNumPpl.toString() + '" /> people. </form>' +
         '<button class="spotMeButton" onclick=app.decrementAreaFactory("' + id + '")()> SpotMe! </button>'
 
@@ -219,17 +273,19 @@ app.performQuery = function(query) {
         return x != null && x != undefined;
     }
     var filtered = app.areaList;
-    if (exists(query.tables)) {
-        filtered = filtered.filter(app.query.filterTables(query.tables))
-    }
-    if (exists(query.whiteboard)) {
-        filtered = filtered.filter(app.query.filterWhiteboard(query.whiteboard))
-    }
-    if (exists(query.floor)) {
-        filtered = filtered.filter(app.query.filterFloor(query.floor))
-    }
-    if (exists(query.quiet)) {
-        filtered = filtered.filter(app.query.filterQuiet(query.quiet))
+    if (app.state.isAdvancedSearch) {
+        if (exists(query.tables)) {
+            filtered = filtered.filter(app.query.filterTables(query.tables))
+        }
+        if (exists(query.whiteboard)) {
+            filtered = filtered.filter(app.query.filterWhiteboard(query.whiteboard))
+        }
+        if (exists(query.floor)) {
+            filtered = filtered.filter(app.query.filterFloor(query.floor))
+        }
+        if (exists(query.quiet)) {
+            filtered = filtered.filter(app.query.filterQuiet(query.quiet))
+        }
     }
     if (exists(query.desiredSeats)) {
         filtered = filtered.filter(app.query.filterSeats(query.desiredSeats))
