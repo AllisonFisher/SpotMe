@@ -62,10 +62,10 @@ app.decrementAreaFactory = function (areaName) {
 
 		app.redraw();
 	    if (success === true) {
-            $('#' + areaName.toString()).attr("style","BACKGROUND-COLOR: #B2FF99");
+            $('#stat'+ areaName.toString()).attr("style","BACKGROUND-COLOR: #B2FF99");
         }
         else {
-            $('#' + areaName.toString()).attr("style","BACKGROUND-COLOR: #FF9999");
+            $('#but' + areaName.toString()).attr("style","BACKGROUND-COLOR: #FF9999");
         }
     }
 }
@@ -124,7 +124,7 @@ app.drawArea = function (area) {
         floor + '<br />' +
         description +
         '<br /><br />' +
-        '<p class="status" id='+area.name.toString() + '><b>' + openSeats + '</b><br />'+
+        '<p class="status" id=stat'+area.name.toString() + '><b>' + openSeats + '</b><br />'+
         '<b>' + current + '</b></p>' +
         chairs + comfyChairs + '<br />' +
         tables + wbTables + '<br />' +
@@ -142,7 +142,7 @@ app.drawArea = function (area) {
             '<option>Checking out</option>' +
             '<option>Reporting</option>' +
         '</select>' +
-        ' <input type="text" class="confirmDesiredSeats" placeholder="'
+        ' <input type="text" id=but'+ area.name.toString() + ' class="confirmDesiredSeats" placeholder="'
             + defaultNumPpl.toString() + '" /> people. </form>' +
         '<button class="spotMeButton" onclick=app.decrementAreaFactory("' + id + '")()> SpotMe! </button>'
 
