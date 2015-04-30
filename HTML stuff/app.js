@@ -41,19 +41,25 @@ app.decrementAreaFactory = function (areaName) {
             var num = parseInt(newNum.value, 10);
         }
         var success = true;
-        switch (opt.value) {
-            case "Checking in" :
-                area.current_occupants += num;
-                success = app.keepInLimits(area);
-                break;
-            case "Checking out" :
-                area.current_occupants -= num;
-                success = app.keepInLimits(area);
-                break;
-            case "Reporting" :
-                area.current_occupants = num;
-                success = app.keepInLimits(area);
+        if (num >= 0){
+            switch (opt.value) {
+                case "Checking in" :
+                    area.current_occupants += num;
+                    success = app.keepInLimits(area);
+                    break;
+                case "Checking out" :
+                    area.current_occupants -= num;
+                    success = app.keepInLimits(area);
+                    break;
+                case "Reporting" :
+                    area.current_occupants = num;
+                    success = app.keepInLimits(area);
+            }
         }
+        else{
+            success = false;
+        }
+
 		app.redraw();
 	    if (success === true) {
             $('#' + areaName.toString()).attr("style","BACKGROUND-COLOR: #B2FF99");
