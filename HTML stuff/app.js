@@ -6,6 +6,19 @@ app.state = {};
 app.state.isAdvancedSearch = false;
 app.areaList = [];
 
+app.keepInLimits = function (area) {
+    var success = true;
+    if (area.current_occupants < 0) {
+        area.current_occupants = 0;
+        success = false;
+    }
+    if (area.current_occupants > area.chairs) {
+        area.current_occupants = area.chairs;
+        success = false;
+    }
+    return success;
+}
+
 app.decrementAreaFactory = function (areaName) {
 	return function () {
         var q = app.buildQuery();
@@ -19,6 +32,10 @@ app.decrementAreaFactory = function (areaName) {
 		area = app.areaList.filter(function (x) { return x.name.toString() === areaName.toString(); })[0];
         var areaIdx = results.indexOf(area);
 
+        var stat = document.getElementsByClassName("status")[areaIdx];
+        $('.status').attr("style","BACKGROUND-COLOR: green");
+        //$('p[class="status"]').attr("color", 'green');
+                //"style",'style="BACKGROUND-COLOR: #B2FF99"');
 
         var newNum = document.getElementsByClassName("confirmDesiredSeats")[areaIdx];
         var opt = document.getElementsByClassName("spotOption")[areaIdx];
@@ -26,26 +43,30 @@ app.decrementAreaFactory = function (areaName) {
         if (newNum !== null && newNum.value.length >= 1) {
             var num = parseInt(newNum.value, 10);
         }
+        var success = true;
         switch (opt.value) {
             case "Checking in" :
                 area.current_occupants += num;
-                area.current_occupants = Math.min(area.current_occupants, area.chairs);
+                success = app.keepInLimits(area);
                 break;
             case "Checking out" :
                 area.current_occupants -= num;
-                area.current_occupants = Math.max(area.current_occupants, 0);
+                success = app.keepInLimits(area);
                 break;
             case "Reporting" :
                 area.current_occupants = num;
-                if (area.current_occupants < 0) {
-                    area.current_occupants = 0;
-                }
-                if (area.current_occupants > area.chairs) {
-                    area.current_occupants = area.chairs;
-                }
+                success = app.keepInLimits(area);
         }
+        console.log(stat);
+
 		app.redraw();
-	}
+	    if (success === true) {
+            $('#' + areaName.toString()).attr("style","BACKGROUND-COLOR: #B2FF99");
+        }
+        else {
+            $('#' + areaName.toString()).attr("style","BACKGROUND-COLOR: #FF9999");
+        }
+    }
 }
 
 // BEGIN CODE FOR DISPLAYING RESULTS
@@ -82,7 +103,6 @@ app.toYesNo = function (tf) {
 app.drawArea = function (area) {
 
     // strings of area attributes
-
     var pic = app.drawPic(area);
     var name = 'GHC ' + area.name.toString();
     var floor = area.floor.toString() + 'th floor';
@@ -102,8 +122,8 @@ app.drawArea = function (area) {
         + '<h2>' + name + '</h2>' +
         floor + '<br />' +
         description +
-        '<br /><br /' +
-        '<p><b>' + openSeats + '</b><br />'+
+        '<br /><br />' +
+        '<p class="status" id='+area.name.toString() + '><b>' + openSeats + '</b><br />'+
         '<b>' + current + '</b></p>' +
         chairs + comfyChairs + '<br />' +
         tables + wbTables + '<br />' +
