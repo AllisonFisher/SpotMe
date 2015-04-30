@@ -29,13 +29,10 @@ app.decrementAreaFactory = function (areaName) {
                 });
         var num = q.desiredSeats;
 
-		area = app.areaList.filter(function (x) { return x.name.toString() === areaName.toString(); })[0];
+		area = app.areaList.filter(function (x) {
+            return x.name.toString() === areaName.toString();
+        })[0];
         var areaIdx = results.indexOf(area);
-
-        var stat = document.getElementsByClassName("status")[areaIdx];
-        $('.status').attr("style","BACKGROUND-COLOR: green");
-        //$('p[class="status"]').attr("color", 'green');
-                //"style",'style="BACKGROUND-COLOR: #B2FF99"');
 
         var newNum = document.getElementsByClassName("confirmDesiredSeats")[areaIdx];
         var opt = document.getElementsByClassName("spotOption")[areaIdx];
@@ -57,8 +54,6 @@ app.decrementAreaFactory = function (areaName) {
                 area.current_occupants = num;
                 success = app.keepInLimits(area);
         }
-        console.log(stat);
-
 		app.redraw();
 	    if (success === true) {
             $('#' + areaName.toString()).attr("style","BACKGROUND-COLOR: #B2FF99");
