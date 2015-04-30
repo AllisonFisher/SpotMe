@@ -1,0 +1,1 @@
+web: gunicorn TechComm4.wsgi --log-file -
