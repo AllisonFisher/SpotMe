@@ -557,7 +557,7 @@ app.realData = [
 	last_updated: Date.now(),
 	current_occupants: 0,
 	dirty: false,
-    pic: '"Pics/Gates 6/orange chairs-0.JPG"'
+    pic: '"http://goo.gl/6FrAcw?gdriveurl"'
 },
 {
 	id: 1,
@@ -574,7 +574,7 @@ app.realData = [
 	last_updated: Date.now(),
 	current_occupants: 0,
 	dirty: false,
-    pic: '"Pics/Gates 6/back left-0.JPG"'
+    pic: '"http://goo.gl/zXtfp7?gdriveurl"'
 },
 {
 	id: 2,
@@ -591,7 +591,7 @@ app.realData = [
 	last_updated: Date.now(),
 	current_occupants: 0,
 	dirty: false,
-    pic: '"Pics/Gates 6/kitchen-0.JPG"'
+    pic: '"http://goo.gl/hqdvj6?gdriveurl"'
 },
 {
 	id: 3,
@@ -608,7 +608,7 @@ app.realData = [
 	last_updated: Date.now(),
 	current_occupants: 0,
 	dirty: false,
-    pic: '"Pics/Gates 7/big area under stairs-0.JPG"'
+    pic: '"http://goo.gl/hNFswS?gdriveurl"'
 },
 {
 	id: 4,
@@ -625,7 +625,7 @@ app.realData = [
 	last_updated: Date.now(),
 	current_occupants: 0,
 	dirty: false,
-    pic: '"Pics/Gates 7/back left-0.JPG"'
+    pic: '"http://goo.gl/Juvsxa?gdriveurl"'
 },
 {
 	id: 5,
@@ -642,7 +642,7 @@ app.realData = [
 	last_updated: Date.now(),
 	current_occupants: 0,
 	dirty: false,
-    pic: '"Pics/Gates 7/kitchen-0.JPG"'
+    pic: '"http://goo.gl/AhGHqb?gdriveurl"'
 },
 {
 	id: 6,
@@ -659,7 +659,7 @@ app.realData = [
 	last_updated: Date.now(),
 	current_occupants: 0,
 	dirty: false,
-    pic: '"Pics/Gates 8/back right corner-0.JPG"'
+    pic: '"http://goo.gl/DglLwi?gdriveurl"'
 },
 {
 	id: 7,
@@ -676,7 +676,7 @@ app.realData = [
 	last_updated: Date.now(),
 	current_occupants: 0,
 	dirty: false,
-    pic: '"Pics/Gates 8/back left-0.JPG"'
+    pic: '"http://goo.gl/CRUVbA?gdriveurl"'
 },
 {
 	id: 8,
@@ -693,7 +693,7 @@ app.realData = [
 	last_updated: Date.now(),
 	current_occupants: 0,
 	dirty: false,
-    pic: '"Pics/Gates 8/kitchen-0.JPG"'
+    pic: '"http://goo.gl/5kbpQX?gdriveurl"'
 },
 {
 	id: 9,
@@ -710,7 +710,7 @@ app.realData = [
 	last_updated: Date.now(),
 	current_occupants: 0,
 	dirty: false,
-    pic: '"Pics/Gates 8/elevator-0.JPG"'
+    pic: '"http://goo.gl/wNZiMc?gdriveurl"'
 },
 {
 	id: 10,
@@ -726,7 +726,7 @@ app.realData = [
 	description: 'Located in the corner of the building farthest from the elevators. Overlooks NSH.',
 	current_occupants: 0,
 	dirty: false,
-    pic: '"Pics/Gates 9/back right corner-0.JPG"'
+    pic: '"http://goo.gl/XsaUqE?gdriveurl"'
 },
 {
 	id: 11,
@@ -743,7 +743,7 @@ app.realData = [
 	last_updated: Date.now(),
 	current_occupants: 0,
 	dirty: false,
-    pic: '"Pics/Gates 9/back left-0.JPG"'
+    pic: '"http://goo.gl/i0glGH?gdriveurl"'
 },
 {
 	id: 12,
@@ -760,7 +760,7 @@ app.realData = [
 	last_updated: Date.now(),
 	current_occupants: 0,
 	dirty: false,
-    pic: '"Pics/Gates 9/kitchen-0.JPG"'
+    pic: '"http://goo.gl/xRO10T?gdriveurl"'
 },
 {
 	id: 13,
@@ -777,7 +777,7 @@ app.realData = [
 	last_updated: Date.now(),
 	current_occupants: 0,
 	dirty: false,
-    pic: '"Pics/Gates 9/elevator-0.JPG"'
+    pic: '"http://goo.gl/CuAiCK?gdriveurl"'
 },
 {
 	id: 14,
@@ -794,7 +794,7 @@ app.realData = [
 	last_updated: Date.now(),
 	current_occupants: 0,
 	dirty: false,
-    pic: '"Pics/Gates 9/front right-0.JPG"'
+    pic: '"http://goo.gl/2sTrFH?gdriveurl"'
 }
 ]
 
